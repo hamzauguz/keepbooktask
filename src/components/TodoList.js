@@ -35,7 +35,11 @@ const TodoList = () => {
   const renderItem = ({item}) => {
     return (
       <View style={styles.item}>
-        <Text style={styles.title}>{item.name}</Text>
+        <View>
+          <Text style={styles.title}>{item.name}</Text>
+          <Text style={styles.title}>{item.author}</Text>
+          <Text style={styles.title}>{item.completeDate}</Text>
+        </View>
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={() => onDelete(item.id)}>
