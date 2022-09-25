@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -7,13 +14,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector} from 'react-redux';
 import {deleteTask} from '../redux/taskSlice';
 import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 const TodoList = () => {
   const dispatch = useDispatch();
-  const todos = useSelector(state => state.tasks);
-  // console.log(todos);
+  const books = useSelector(state => state.tasks);
+  const navigation = useNavigation();
 
-  //delete item by checking if id is equal to the id of the item
   const onDelete = id => {
     dispatch(
       deleteTask({
@@ -22,7 +29,6 @@ const TodoList = () => {
     );
   };
 
-  //renderItem function with a delete button
   const renderItem = ({item}) => {
     return (
       <View style={styles.item}>
@@ -36,6 +42,11 @@ const TodoList = () => {
             <Text style={styles.desc}>{item.author}</Text>
           </View>
           <View style={styles.rows}>
+            <MaterialIcons size={30} name="category" color={'#3177AB'} />
+            <Text style={styles.complete}>{item.category}</Text>
+          </View>
+
+          <View style={styles.rows}>
             <MaterialIcons size={30} name="date-range" color={'#3177AB'} />
             <Text style={styles.complete}>{item.completeDate}</Text>
           </View>
@@ -48,7 +59,7 @@ const TodoList = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.deleteButton}
-            onPress={() => onDelete(item.id)}>
+            onPress={() => navigation.navigate('ChangetoBook', {item})}>
             <AntDesign size={30} name="edit" color={'#3177AB'} />
           </TouchableOpacity>
         </View>
@@ -58,8 +69,15 @@ const TodoList = () => {
 
   return (
     <View>
+      {books.length === 0 && (
+        <Image
+          resizeMode="contain"
+          source={require('../assets/images/basket.webp')}
+          style={{width: '100%'}}
+        />
+      )}
       <FlatList
-        data={todos}
+        data={books}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

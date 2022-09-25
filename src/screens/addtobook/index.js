@@ -17,9 +17,30 @@ const AddtoBook = () => {
   const [open, setOpen] = useState(false);
   const [showDate, setShowDate] = useState(false);
   const [data, setData] = useState([]);
+  const [bookData, setBookData] = useState('');
+  const [selected, setSelected] = useState('');
 
   const dispatch = useDispatch();
-  const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
+
+  const categoryData = [
+    'Bilim Kurgu',
+    'Dünya Klasikleri',
+    'Tarih',
+    'Fantezi',
+    'Psikoloji',
+  ];
+  const getData = () => {
+    axios
+      .get(
+        'https://res.cloudinary.com/drxffezfe/raw/upload/v1661977358/book-categories_qbktat.json',
+      )
+      .then(res => {
+        console.log('theres: ', res.data.data);
+        const filter = res.data.data;
+
+        setBookData(filter);
+      });
+  };
 
   const onSubmitTask = () => {
     if (todo.trim().length === 0) {
@@ -34,6 +55,7 @@ const AddtoBook = () => {
         task: todo,
         author: author,
         completeDate: date.toString(),
+        category: selected,
       }),
     );
     setTodo('');
@@ -43,12 +65,7 @@ const AddtoBook = () => {
   useEffect(() => {
     //getData();
 
-    fetch(
-      'https://res.cloudinary.com/drxffezfe/raw/upload/v1661977358/book-categories_qbktat.json',
-    )
-      .then(response => response.json())
-      .then(json => setData(json))
-      .catch(error => alert(error));
+    getData();
   }, []);
 
   return (
@@ -71,9 +88,10 @@ const AddtoBook = () => {
         }}
         onPressCompleteDate={() => setOpen(true)}
         hideText={showDate == true}
-        data={data}
+        data={categoryData}
         onSelect={(selectedItem, index) => {
           console.log(selectedItem);
+          setSelected(selectedItem);
         }}
       />
     </View>

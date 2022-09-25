@@ -14,9 +14,15 @@ export const taskSlice = createSlice({
         name: action.payload.task,
         author: action.payload.author,
         startdate: action.payload.startdate,
+        category: action.payload.category,
         completeDate: action.payload.completeDate,
       };
       state.push(newTask);
+    },
+    editTask: (state, action) => {
+      const currentTasks = Array.from(state.initialState);
+      currentTasks[action.payload.taskIndex] = action.payload.task;
+      return {...state, initialState: currentTasks};
     },
     deleteTask: (state, action) => {
       console.log(action.payload.id);
@@ -26,6 +32,6 @@ export const taskSlice = createSlice({
   },
 });
 
-export const {addTask, deleteTask} = taskSlice.actions;
+export const {addTask, deleteTask, editTask} = taskSlice.actions;
 
 export default taskSlice.reducer;

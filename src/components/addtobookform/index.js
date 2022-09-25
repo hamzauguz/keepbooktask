@@ -28,13 +28,7 @@ const AddtoBookForm = ({
   onSelect,
 }) => {
   const [showDate, setShowDate] = useState(false);
-  const categoryData = [
-    'Bilim Kurgu',
-    'Dünya Klasikleri',
-    'Tarih',
-    'Fantezi',
-    'Psikoloji',
-  ];
+
   console.log(date);
   return (
     <View style={styles.main}>
@@ -72,12 +66,11 @@ const AddtoBookForm = ({
           }}>
           <Ionicons size={30} name="options" color={'#3177AB'} />
           <SelectDropdown
-            data={categoryData}
+            data={data}
             onSelect={onSelect}
             buttonStyle={{
               backgroundColor: '#B8C4CC',
               height: 40,
-
               margin: 10,
             }}
           />
