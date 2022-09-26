@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import {useState} from 'react';
@@ -12,7 +13,8 @@ import SelectDropdown from 'react-native-select-dropdown';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {editTask} from '../../redux/taskSlice';
+import {addTask, deleteTask, editTask} from '../../redux/taskSlice';
+import {useNavigation} from '@react-navigation/native';
 
 const ChangetoBook = ({route}) => {
   const categoryData = [
@@ -28,22 +30,11 @@ const ChangetoBook = ({route}) => {
   console.log('examplea..... ', route.params.item.author);
   console.log('examplea..... ', route.params.item.category);
   console.log('examplea..... ', route.params.item.completeDate);
+  console.log('examplea..... ', route.params.item.id);
 
   const tasks = useSelector(state => state.tasks);
   const dispatch = useDispatch();
-  const editTaskFromList = task => {
-    const taskToEdit = tasks.find(item => item.id === task.id);
-    const taskIndex = tasks.indexOf(taskToEdit);
-    setEditingTaskIndex(taskIndex);
-    setInputValue(taskToEdit.title);
-  };
-
-  const handleSubmit = () => {
-    const editingItem = tasks[editingTaskIndex];
-    editingItem.name = todo;
-    dispatch(editTask(editingTaskIndex, editingItem));
-  };
-
+  const navigation = useNavigation();
   const [inputValue, setInputValue] = useState(route.id);
   const [todo, setTodo] = useState(route.params.item.name);
   const [author, setAuthor] = useState(route.params.item.author);
@@ -57,7 +48,23 @@ const ChangetoBook = ({route}) => {
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
 
   const onSubmitTask = () => {
-    setOpen(true);
+    if (todo.trim().length === 0) {
+      Alert.alert('You need to enter a task');
+      setTodo('');
+      setAuthor('');
+      return;
+    }
+    navigation.navigate('Home');
+    dispatch(
+      addTask({
+        task: todo,
+        author: author,
+        completeDate: date.toString(),
+        category: selected,
+      }),
+    );
+    setTodo('');
+    setAuthor('');
   };
 
   return (
@@ -115,7 +122,7 @@ const ChangetoBook = ({route}) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.addTouch} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.addTouch} onPress={onSubmitTask}>
         <Text style={styles.buton}>Add to Book</Text>
       </TouchableOpacity>
     </View>

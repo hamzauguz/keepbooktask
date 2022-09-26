@@ -59,7 +59,10 @@ const TodoList = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.deleteButton}
-            onPress={() => navigation.navigate('ChangetoBook', {item})}>
+            onPress={() => {
+              navigation.navigate('ChangetoBook', {item});
+              onDelete(item.id);
+            }}>
             <AntDesign size={30} name="edit" color={'#3177AB'} />
           </TouchableOpacity>
         </View>
