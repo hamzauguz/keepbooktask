@@ -1,9 +1,6 @@
-import {View, Text} from 'react-native';
 import * as React from 'react';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
-
-import TodoList from './src/components/TodoList';
 import Home from './src/screens/home';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';

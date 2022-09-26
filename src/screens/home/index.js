@@ -1,7 +1,9 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import TodoList from '../../components/TodoList';
+import {View, Text, TouchableOpacity} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
+import {styles} from './styles';
+import TodoList from '../../components/todolist';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -18,18 +20,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  main: {
-    height: '100%',
-    justifyContent: 'space-between',
-  },
-  buton: {
-    alignItems: 'center',
-    backgroundColor: '#3177AB',
-    height: 80,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  bookTitle: {fontSize: 24, fontWeight: '600', color: 'white'},
-});

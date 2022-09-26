@@ -16,7 +16,7 @@ const AddtoBook = () => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [showDate, setShowDate] = useState(false);
-  const [data, setData] = useState([]);
+
   const [bookData, setBookData] = useState('');
   const [selected, setSelected] = useState('');
 
